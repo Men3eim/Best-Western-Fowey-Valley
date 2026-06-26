@@ -14,7 +14,7 @@ export function PropertyPageContent({ property }: PropertyPageContentProps) {
   const heroCtas = property.bookingUrl
     ? [
         {
-          label: "Book on Booking.com",
+          label: "Book With Us",
           href: property.bookingUrl,
           external: true,
           variant: "primary" as const,
@@ -126,7 +126,7 @@ export function PropertyPageContent({ property }: PropertyPageContentProps) {
           property.bookingUrl
             ? [
                 {
-                  label: "Book on Booking.com",
+                  label: "Book With Us",
                   href: property.bookingUrl,
                   external: true,
                   variant: "light",

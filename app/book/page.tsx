@@ -66,7 +66,7 @@ export default function BookPage() {
                         rel="noopener noreferrer"
                         className="btn-primary"
                       >
-                        Book on Booking.com
+                        Book With Us
                       </a>
                     ) : (
                       <span className="inline-flex items-center rounded-full border border-charcoal/20 px-5 py-3 text-xs font-medium uppercase tracking-widest text-charcoal/50">
