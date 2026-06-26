@@ -125,7 +125,7 @@ export const properties: Property[] = [
       },
     ],
     heroImage: "/properties/fowey-valley/aerial.png",
-    cardImage: "/properties/fowey-valley/exterior-stone.png",
+    cardImage: "/properties/fowey-valley/aerial.png",
     gallery: [
       {
         src: "/properties/fowey-valley/exterior.png",
