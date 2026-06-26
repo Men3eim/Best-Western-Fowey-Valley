@@ -49,12 +49,21 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  const onHero = !scrolled && !menuOpen;
+
   const linkClass = (href: string) => {
     const active = isNavActive(pathname, href);
-    return `relative text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-300 sm:tracking-[0.18em] ${
-      active
-        ? "text-gold"
-        : "text-charcoal hover:text-gold"
+    const base =
+      "relative text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-300 sm:tracking-[0.18em]";
+
+    if (onHero) {
+      return `${base} ${
+        active ? "text-gold-light" : "text-cream hover:text-gold-light"
+      }`;
+    }
+
+    return `${base} ${
+      active ? "text-gold" : "text-charcoal hover:text-gold"
     }`;
   };
 
@@ -62,10 +71,10 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-500 ease-smooth ${
-        scrolled || menuOpen
-          ? "border-charcoal/10 bg-cream shadow-[0_4px_24px_rgba(28,28,26,0.08)]"
-          : "border-transparent bg-cream/95 backdrop-blur-md"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-smooth ${
+        onHero
+          ? "border-b border-white/15 bg-charcoal/25 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl backdrop-saturate-150"
+          : "border-b border-white/40 bg-cream/80 shadow-[0_8px_32px_rgba(28,28,26,0.08)] backdrop-blur-2xl backdrop-saturate-150"
       }`}
     >
       <div className="container-hbl flex h-[5rem] items-center justify-between gap-4 sm:h-[5.5rem] lg:h-24">
@@ -101,7 +110,11 @@ export function Header() {
         <div className="hidden items-center gap-4 lg:flex">
           <a
             href={primaryPhone.tel}
-            className="flex items-center gap-2 text-sm font-medium text-charcoal transition-colors duration-300 hover:text-gold"
+            className={`flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
+              onHero
+                ? "text-cream/90 hover:text-gold-light"
+                : "text-charcoal hover:text-gold"
+            }`}
           >
             <PhoneIcon className="h-4 w-4 shrink-0" />
             <span className="hidden xl:inline">{siteConfig.phoneDisplay}</span>
@@ -109,7 +122,11 @@ export function Header() {
           </a>
           <Link
             href="/book"
-            className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-charcoal px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] text-cream transition-all duration-300 hover:bg-gold hover:text-charcoal"
+            className={`inline-flex min-h-[46px] items-center justify-center rounded-full px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] transition-all duration-300 ${
+              onHero
+                ? "border border-cream/40 bg-white/10 text-cream backdrop-blur-sm hover:border-gold hover:bg-gold hover:text-charcoal"
+                : "bg-charcoal/90 text-cream backdrop-blur-sm hover:bg-gold hover:text-charcoal"
+            }`}
           >
             Book With Us
           </Link>
@@ -119,7 +136,11 @@ export function Header() {
           <a
             href={primaryPhone.tel}
             aria-label={`Call ${siteConfig.phoneDisplay}`}
-            className="flex h-11 w-11 items-center justify-center rounded-full text-charcoal transition-colors duration-300 hover:bg-charcoal/5 hover:text-gold"
+            className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
+              onHero
+                ? "text-cream hover:bg-white/10 hover:text-gold-light"
+                : "text-charcoal hover:bg-charcoal/5 hover:text-gold"
+            }`}
           >
             <PhoneIcon className="h-5 w-5" />
           </a>
@@ -128,23 +149,27 @@ export function Header() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="relative z-[60] flex h-11 w-11 items-center justify-center rounded-full text-charcoal transition-colors duration-300 hover:bg-charcoal/5"
+            className={`relative z-[60] flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
+              onHero
+                ? "text-cream hover:bg-white/10"
+                : "text-charcoal hover:bg-charcoal/5"
+            }`}
           >
             <div className="flex flex-col gap-[5px]">
               <span
-                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
-                  menuOpen ? "translate-y-[6px] rotate-45" : ""
-                }`}
+                className={`block h-0.5 w-5 transition-all duration-300 ${
+                  onHero ? "bg-cream" : "bg-charcoal"
+                } ${menuOpen ? "translate-y-[6px] rotate-45" : ""}`}
               />
               <span
-                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
-                  menuOpen ? "opacity-0" : ""
-                }`}
+                className={`block h-0.5 w-5 transition-all duration-300 ${
+                  onHero ? "bg-cream" : "bg-charcoal"
+                } ${menuOpen ? "opacity-0" : ""}`}
               />
               <span
-                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
-                  menuOpen ? "-translate-y-[6px] -rotate-45" : ""
-                }`}
+                className={`block h-0.5 w-5 transition-all duration-300 ${
+                  onHero ? "bg-cream" : "bg-charcoal"
+                } ${menuOpen ? "-translate-y-[6px] -rotate-45" : ""}`}
               />
             </div>
           </button>
@@ -169,7 +194,7 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-cream shadow-2xl lg:hidden"
+              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col border-l border-white/40 bg-cream/90 shadow-2xl backdrop-blur-2xl backdrop-saturate-150 lg:hidden"
               style={{ paddingTop: "env(safe-area-inset-top)" }}
             >
               <div className="flex items-center justify-between border-b border-charcoal/10 px-6 py-5">
