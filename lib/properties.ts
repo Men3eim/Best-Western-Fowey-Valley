@@ -124,7 +124,7 @@ export const properties: Property[] = [
           "Convenient on-site parking for a stress-free arrival and departure.",
       },
     ],
-    heroImage: "/properties/fowey-valley/exterior.png",
+    heroImage: "/properties/fowey-valley/aerial.png",
     cardImage: "/properties/fowey-valley/exterior-stone.png",
     gallery: [
       {
