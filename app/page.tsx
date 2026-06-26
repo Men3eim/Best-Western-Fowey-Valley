@@ -42,8 +42,8 @@ export default function HomePage() {
           </>
         }
         subtitle="HBL Hotels welcomes guests to a family of warm, comfortable retreats across the South West of England — from the seafront of the English Riviera to the calm of the Cornish countryside."
-        image="/properties/tor-park/exterior.png"
-        imageAlt="Tor Park Hotel exterior"
+        image="/properties/fowey-valley/aerial.png"
+        imageAlt="Best Western Fowey Valley aerial view"
         ctas={[
           { label: "Discover Our Hotels", href: "#hotels", variant: "light" },
           { label: "Book With Us", href: "/book", variant: "primary" },
