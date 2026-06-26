@@ -5,18 +5,18 @@
 :root {
   --background: #f6f2ea;
   --foreground: #1c1c1a;
-  --header-height: 4.5rem;
+  --header-height: 5rem;
 }
 
 @media (min-width: 640px) {
   :root {
-    --header-height: 5rem;
+    --header-height: 5.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   :root {
-    --header-height: 5.25rem;
+    --header-height: 6rem;
   }
 }
 

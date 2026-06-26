@@ -31,10 +31,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isSolid = scrolled || menuOpen;
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -53,31 +51,24 @@ export function Header() {
 
   const linkClass = (href: string) => {
     const active = isNavActive(pathname, href);
-    const base =
-      "relative text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-300";
-    const color = isSolid
-      ? active
+    return `relative text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-300 sm:tracking-[0.18em] ${
+      active
         ? "text-gold"
         : "text-charcoal hover:text-gold"
-      : active
-        ? "text-gold-light"
-        : "text-cream/90 hover:text-gold-light";
-
-    return `${base} ${color}`;
+    }`;
   };
 
   const primaryPhone = siteConfig.phones[0];
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-smooth ${
-        isSolid
-          ? "bg-cream/97 shadow-[0_1px_0_rgba(28,28,26,0.08)] backdrop-blur-md"
-          : "bg-gradient-to-b from-charcoal/50 to-transparent"
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-500 ease-smooth ${
+        scrolled || menuOpen
+          ? "border-charcoal/10 bg-cream shadow-[0_4px_24px_rgba(28,28,26,0.08)]"
+          : "border-transparent bg-cream/95 backdrop-blur-md"
       }`}
     >
-      <div className="container-hbl flex h-[4.5rem] items-center justify-between gap-4 sm:h-20 lg:h-[5.25rem]">
-        {/* Logo */}
+      <div className="container-hbl flex h-[5rem] items-center justify-between gap-4 sm:h-[5.5rem] lg:h-24">
         <Link
           href="/"
           className="relative z-[60] flex shrink-0 items-center"
@@ -86,37 +77,31 @@ export function Header() {
           <Image
             src={siteConfig.logo}
             alt={`${siteConfig.name} logo`}
-            width={150}
-            height={60}
+            width={170}
+            height={68}
             priority
-            className="h-10 w-auto sm:h-11 lg:h-12"
+            className="h-11 w-auto sm:h-12 lg:h-14"
           />
         </Link>
 
-        {/* Desktop navigation */}
         <nav
-          className="hidden items-center gap-6 xl:gap-8 lg:flex"
+          className="hidden items-center gap-7 xl:gap-9 lg:flex"
           aria-label="Main navigation"
         >
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className={linkClass(item.href)}>
               {item.label}
               {isNavActive(pathname, item.href) && (
-                <span className="absolute -bottom-1.5 left-0 h-px w-full bg-gold" />
+                <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-gold" />
               )}
             </Link>
           ))}
         </nav>
 
-        {/* Desktop / tablet actions */}
-        <div className="hidden items-center gap-3 sm:gap-4 lg:flex">
+        <div className="hidden items-center gap-4 lg:flex">
           <a
             href={primaryPhone.tel}
-            className={`flex items-center gap-2 text-xs font-medium tracking-wide transition-colors duration-300 ${
-              isSolid
-                ? "text-charcoal hover:text-gold"
-                : "text-cream/90 hover:text-gold-light"
-            }`}
+            className="flex items-center gap-2 text-sm font-medium text-charcoal transition-colors duration-300 hover:text-gold"
           >
             <PhoneIcon className="h-4 w-4 shrink-0" />
             <span className="hidden xl:inline">{siteConfig.phoneDisplay}</span>
@@ -124,26 +109,17 @@ export function Header() {
           </a>
           <Link
             href="/book"
-            className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-all duration-300 ${
-              isSolid
-                ? "bg-charcoal text-cream hover:bg-gold hover:text-charcoal"
-                : "border border-cream/50 bg-cream/10 text-cream backdrop-blur-sm hover:border-gold hover:bg-gold hover:text-charcoal"
-            }`}
+            className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-charcoal px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] text-cream transition-all duration-300 hover:bg-gold hover:text-charcoal"
           >
             Book With Us
           </Link>
         </div>
 
-        {/* Mobile: phone + menu */}
         <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
           <a
             href={primaryPhone.tel}
             aria-label={`Call ${siteConfig.phoneDisplay}`}
-            className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
-              isSolid
-                ? "text-charcoal hover:bg-charcoal/5 hover:text-gold"
-                : "text-cream hover:bg-cream/10 hover:text-gold-light"
-            }`}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-charcoal transition-colors duration-300 hover:bg-charcoal/5 hover:text-gold"
           >
             <PhoneIcon className="h-5 w-5" />
           </a>
@@ -152,34 +128,29 @@ export function Header() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className={`relative z-[60] flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
-              isSolid
-                ? "text-charcoal hover:bg-charcoal/5"
-                : "text-cream hover:bg-cream/10"
-            }`}
+            className="relative z-[60] flex h-11 w-11 items-center justify-center rounded-full text-charcoal transition-colors duration-300 hover:bg-charcoal/5"
           >
             <div className="flex flex-col gap-[5px]">
               <span
-                className={`block h-px w-5 transition-all duration-300 ${
-                  isSolid ? "bg-charcoal" : "bg-cream"
-                } ${menuOpen ? "translate-y-[6px] rotate-45" : ""}`}
+                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
+                  menuOpen ? "translate-y-[6px] rotate-45" : ""
+                }`}
               />
               <span
-                className={`block h-px w-5 transition-all duration-300 ${
-                  isSolid ? "bg-charcoal" : "bg-cream"
-                } ${menuOpen ? "opacity-0" : ""}`}
+                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
+                  menuOpen ? "opacity-0" : ""
+                }`}
               />
               <span
-                className={`block h-px w-5 transition-all duration-300 ${
-                  isSolid ? "bg-charcoal" : "bg-cream"
-                } ${menuOpen ? "-translate-y-[6px] -rotate-45" : ""}`}
+                className={`block h-0.5 w-5 bg-charcoal transition-all duration-300 ${
+                  menuOpen ? "-translate-y-[6px] -rotate-45" : ""
+                }`}
               />
             </div>
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <>
