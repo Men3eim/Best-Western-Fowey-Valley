@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -18,6 +19,8 @@ type HeroProps = {
   subtitle?: string;
   image?: string;
   imageAlt?: string;
+  images?: { src: string; alt: string }[];
+  slideshowInterval?: number;
   ctas?: HeroCta[];
   size?: "full" | "tall" | "medium";
 };
@@ -34,30 +37,59 @@ export function Hero({
   subtitle,
   image,
   imageAlt = "",
+  images,
+  slideshowInterval = 1500,
   ctas = [],
   size = "full",
 }: HeroProps) {
+  const slideshowImages =
+    images && images.length > 0
+      ? images
+      : image
+        ? [{ src: image, alt: imageAlt }]
+        : [];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (slideshowImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slideshowImages.length);
+    }, slideshowInterval);
+
+    return () => clearInterval(interval);
+  }, [slideshowImages, slideshowInterval]);
+
   return (
     <section
       className={`relative flex items-center overflow-hidden ${sizeClasses[size]}`}
     >
       <div className="absolute inset-0">
-        {image ? (
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: 1.12 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-            />
-          </motion.div>
+        {slideshowImages.length > 0 ? (
+          <>
+            {slideshowImages.map((slide, index) => (
+              <motion.div
+                key={slide.src}
+                className="absolute inset-0"
+                initial={false}
+                animate={{
+                  opacity: index === activeIndex ? 1 : 0,
+                  scale: index === activeIndex ? 1 : 1.06,
+                }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  priority={index === 0}
+                  sizes="100vw"
+                  className="object-cover object-center"
+                />
+              </motion.div>
+            ))}
+          </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-forest via-charcoal to-charcoal" />
         )}

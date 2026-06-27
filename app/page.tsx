@@ -6,6 +6,9 @@ import { ServicesGrid } from "@/components/ServicesGrid";
 import { ShowcaseCTA } from "@/components/ShowcaseCTA";
 import { properties } from "@/lib/properties";
 
+const foweyValley = properties.find((p) => p.slug === "fowey-valley");
+const homeHeroImages = foweyValley?.gallery ?? [];
+
 const collectionServices = [
   {
     title: "Characterful Stays",
@@ -42,8 +45,8 @@ export default function HomePage() {
           </>
         }
         subtitle="HBL Hotels welcomes guests to a family of warm, comfortable retreats across the South West of England — from the seafront of the English Riviera to the calm of the Cornish countryside."
-        image="/properties/fowey-valley/aerial.png"
-        imageAlt="Best Western Fowey Valley aerial view"
+        images={homeHeroImages}
+        slideshowInterval={1500}
         ctas={[
           { label: "Discover Our Hotels", href: "#hotels", variant: "light" },
           { label: "Book With Us", href: "/book", variant: "primary" },
